@@ -1,0 +1,28 @@
+% clear all; 
+% close all; 
+% Eb=linspace(5,40,11); 
+% BER=[]; 
+% for i=1:length(Eb) 
+%     EbNo = Eb(i);
+%     sim('exp10wmclab.slx'); 
+%     BER(i)=simout(1) 
+% end 
+% plot(Eb,BER)
+% xlabel("Eb/No")
+% ylabel("Bit error rate")
+% title("OFDM 1")
+
+
+Eb=linspace(5,40,11); 
+BER=[]; 
+for i=1:length(Eb) 
+EbNo = Eb(i); 
+sim('exp10wmclab.slx'); 
+BER(i)=simout(1) 
+end 
+plot(Eb,BER) 
+xlabel("Eb/No")
+ ylabel("Bit error rate")
+ title("64 QAM")
+clc 
+
