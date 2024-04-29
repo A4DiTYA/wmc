@@ -1,0 +1,585 @@
+for k ,n,s,c,
+
+
+clc;
+clear all
+close all;
+
+BW = 30000000;
+CBW = 50000;
+total_ar = 2000;
+ar_cell = 2;
+N= input("enter value of N:");
+
+if (N>=1)
+    M = total_ar/ (ar_cell*N);
+else
+    M=1;
+end
+s= BW/CBW;
+k= s/N;
+c= k*N*M;
+disp(k);
+disp(s);
+disp(c);
+
+
+
+
+
+Q)  Plot the graph of Channel bandwidth Vs Capacity, for the following 
+values: 
+i. Get total bandwidth from the user. Let the range of input be 20MHz 
+to 100MHz. 
+ii. Let the total area = 2000 sq.km; area of a cell=2 sq.km 
+iii. Channel bandwidth = 20: 20: 200 kHz, 
+iv. N=3, 4, 7, 9, 12 
+(Note: A single plot should be used to display all the results)
+
+% Get total bandwidth from the user
+total_bandwidth = input('Enter total bandwidth (MHz) between 20 and 100: ');
+
+% Check if the input is within the specified range
+if total_bandwidth < 20 || total_bandwidth > 100
+    error('Total bandwidth must be between 20 and 100 MHz.');
+end
+
+% Given values
+total_area = 2000;  % sq.km
+cell_area = 2;     % sq.km
+channel_bandwidth_range = 20:20:200;  % kHz
+N_values = [3, 4, 7, 9, 12];
+
+% Calculate capacity for each N value and channel bandwidth
+capacities = zeros(length(N_values), length(channel_bandwidth_range));
+
+for i = 1:length(N_values)
+    N = N_values(i);
+    for j = 1:length(channel_bandwidth_range)
+        channel_bandwidth = channel_bandwidth_range(j);
+        
+        % Calculate capacity using given formula
+        capacity = (total_bandwidth * 1e3) / (cell_area * N * channel_bandwidth);
+        capacities(i, j) = capacity;
+    end
+end
+
+% Plot the graph
+figure;
+hold on;
+
+for i = 1:length(N_values)
+    plot(channel_bandwidth_range, capacities(i, :), 'LineWidth', 2);
+end
+
+title('Channel Bandwidth vs. Capacity');
+xlabel('Channel Bandwidth (kHz)');
+ylabel('Capacity');
+legend(arrayfun(@(x) ['N = ' num2str(x)], N_values, 'UniformOutput', false));
+grid on;
+hold off;
+
+
+
+
+
+
+ handover probability for the following specifications 
+
+
+%  question 3      co channel vs SIR
+
+% clc 
+% clear all;
+% close all;
+% d=500:100:2000;
+% r=5*(10^3); % in meters
+% n=[2,4];
+% q=6;
+% capacity_matrix = zeros(length(d), length(n));
+% for i=1:length(d)
+%     for j=1:length(n)
+%         s=((d(i)/r)^n(j))/q;
+%         capacity_matrix(i,j)=s;
+%     end
+% end
+% figure(3)
+% hold on
+% for i=(1:length(n))
+%     plot(d,capacity_matrix(: , i ))
+% end
+% xlabel("distance");
+% ylabel("SIR");
+% title("distance between co-channel cells vs.SIR");
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+
+% question 4   // display SIR of the following
+%  n = 3;
+% N1 = 5;
+% N2 = 7;
+% N3 = 19;
+% i1 = 6;
+% i2 = 2;
+% i3 = 1;
+% SIR11 = 10*log(((3.*N1).^(n/2))./i1);
+% SIR12 = 10*log(((3.*N1).^(n/2))./i2);
+% SIR13 = 10*log(((3.*N1).^(n/2))./i3);
+% SIR21 = 10*log(((3.*N2).^(n/2))./i1);
+% SIR22 = 10*log(((3.*N2).^(n/2))./i2);
+% SIR23 = 10*log(((3.*N2).^(n/2))./i3);
+% SIR31 = 10*log(((3.*N3).^(n/2))./i1);
+% SIR32 = 10*log(((3.*N3).^(n/2))./i2);
+% SIR33 = 10*log(((3.*N3).^(n/2))./i3);
+% Sectorization = ['No sectorization';"60 degree sectorization";"120 degree sectorization";"No sectorization";"60 degree sectorization";"120 degree sectorization";"No sectorization";"60 degree sectorization";"120 degree sectorization"]
+% SIRDb = [SIR11;SIR12;SIR13;SIR21;SIR22;SIR23;SIR31;SIR32;SIR33]
+% N = [N1;N1;N1;N2;N2;N2;N3;N3;N3]
+% t1 = table(Sectorization,N,SIRDb)
+
+
+
+
+
+
+
+
+
+% question 2  // handover probabilty vs cell radius 
+% 
+% r=100:100:1000;
+% avg=3*60;
+% v=60*(5/18);
+% u=1/avg;
+% PI=3.14;
+% n=(2.*v)./(PI*r);
+% Hp=n./(n+u);
+% figure(2)
+% plot(r,Hp)
+% xlabel("Cell Radius");
+% ylabel("Handoff");
+% title("cell_radius vs handoff");
+
+
+
+
+
+
+
+% %  question 1    //   call handover probability 
+% clc;
+% clear all;
+% close all;
+% %PART-A
+% r=500; % cell radius
+% avg=3*60; % average holding time
+% v=5:5:50; % velocity of user
+% u=1/avg; % inverse of hold time
+% PI=3.14;
+% n=(2.*v)/(PI*r);
+% Hp=n./(n+u); % hand over probability
+% disp(Hp)
+% figure(1)
+% plot(v,Hp)
+% xlabel("Velocity");
+% ylabel("Hand Over Probability")
+% title("handover probability vs mobile speed")
+
+
+
+%Given values.
+f = 900 * 10^6;  
+Pt = 10;  
+Gt = 10^(5 / 10);  
+Gr = 10^(3 / 10);  
+L = 1;  % System loss factor
+d = 100:100:2000;  % Distance (m)
+
+%Speed of light (m/s)
+c = 3 * 10^8;
+
+% Calculate wavelength
+wavelength = c / f;
+
+% Calculate received power (Pr)
+Pr = (Pt * Gt * Gr * wavelength^2) ./ (16 * pi^2 * d.^2);
+
+% Calculate path loss (PL)
+%PL = 20 * log10(d) + 20 * log10(f) + 20 * log10(4 * pi / c);
+PL = 10*log10(Pt) - 10*log10(Pr);
+% Plot distance vs. Received power
+figure;
+plot(d, Pr, 'b', 'LineWidth', 2);
+title('Distance vs. Received Power');
+xlabel('Distance (m)');
+ylabel('Received Power (W)');
+grid on;
+legend('Received Power (Pr)');
+
+% Plot distance vs. Path loss
+figure;
+plot(d, PL, 'r', 'LineWidth', 2);
+title('Distance vs. Path Loss');
+xlabel('Distance (m)');
+ylabel('Path Loss (dB)');
+grid on;
+legend('Path Loss (PL)');
+
+
+% % Importing necessary libraries             // free space 
+% addpath('path_to_matlab_toolbox/matlab');
+% 
+% f = 900 * 10^6;  
+% Pt = 10;  
+% Gt = 10^(5 / 10);  
+% Gr = 10^(3 / 10);  
+% L = 1;  
+% d = 100:100:2000;  
+% 
+% c = 3 * 10^8;
+% 
+% wavelength = c / f;
+% 
+% Pr = (Pt * Gt * Gr * wavelength^2) ./ (16 * pi^2 * d.^2);
+% 
+% PL = 20 * log10(d) + 20 * log10(f) + 20 * log10(4 * pi / c);
+% 
+% figure('Position', [100, 100, 1000, 500]);
+% plot(d, Pr, 'DisplayName', 'Received Power (Pr)');
+% title('Distance vs. Received Power');
+% xlabel('Distance (m)');
+% ylabel('Received Power (W)');
+% grid on;
+% legend('show');
+% 
+% figure('Position', [100, 100, 1000, 500]);
+% plot(d, PL, 'DisplayName', 'Path Loss (PL)');
+% title('Distance vs. Path Loss');
+% xlabel('Distance (m)');
+% ylabel('Path Loss (dB)');
+% grid on;
+% legend('show');
+% 
+% 
+
+
+//                    two ray model 
+
+% Given values
+f = 900 * 10^6;  % Frequency of operation (Hz)
+Pt = 10;  % Transmit Power (W)
+Gt = 10^(5 / 10);  % Gain of transmitting antenna (convert dB to linear scale)
+Gr = 10^(3 / 10);  % Gain of receiving antenna (convert dB to linear scale)
+ht = 40;  % Height of transmitting antenna (m)
+hr = 3;  % Height of receiving antenna (m)
+d = 100:100:2000;  % Distance (m)
+
+% Speed of light (m/s)
+c = 3 * 10^8;
+
+% Calculate received power (Pr)
+Pr = (Pt * Gt * Gr * (ht * hr)^2) ./ ((4 * pi * d).^2);
+
+% Calculate path loss (PL)
+%PL = 20 * log10(d) + 20 * log10(f) + 20 * log10((4 * pi * ht * hr) / c);
+PL = 10*log10(Pt) - 10*log10(Pr);
+% Plot distance vs. Received power
+figure;
+plot(d, Pr, 'b', 'LineWidth', 2);
+title('Distance vs. Received Power (Two-ray Model)');
+xlabel('Distance (m)');
+ylabel('Received Power (W)');
+grid on;
+legend('Received Power (Pr)');
+
+% Plot distance vs. Path loss
+figure;
+plot(d, PL, 'r', 'LineWidth', 2);
+title('Distance vs. Path Loss (Two-ray Model)');
+xlabel('Distance (m)');
+ylabel('Path Loss (dB)');
+grid on;
+legend('Path Loss (PL)');
+
+
+ //                 both two ray vs free space 
+
+% % Given values
+% %distance = 1000 meter
+% f = 900 * 10^6;  
+% Pt = 10; 
+% Gt = 10^(5 / 10);  
+% Gr = 10^(3 / 10);  
+% ht = 40;  
+% hr = 3;  
+% d = 1000;  
+% 
+% % Speed of light (m/s)
+% c = 3 * 10^8;
+% 
+% % Calculate wavelength for Free Space Propagation Model
+% wavelength = c / f;
+% 
+% % Free Space Propagation Model: Calculate path loss (PL)
+% PL_free_space = 20 * log10(d) + 20 * log10(f) + 20 * log10(4 * pi / c);
+% 
+% % Two-ray Model: Calculate path loss (PL)
+% PL_two_ray = 20 * log10(d) + 20 * log10(f) + 20 * log10((4 * pi * ht * hr) / c);
+% 
+% % Display path loss for both models
+% fprintf('Path Loss (Free Space Propagation Model) at %d meters: %.2f dB\n', d, PL_free_space);
+% fprintf('Path Loss (Two-ray Model) at %d meters: %.2f dB\n', d, PL_two_ray);
+
+
+% Given values
+f = 900 * 10^6;  
+Pt = 10; 
+Gt = 10^(5 / 10);  
+Gr = 10^(3 / 10);  
+ht = 40;  
+hr = 3;  
+d = 1:1000;  % distance from 1 to 1000 meters
+
+% Speed of light (m/s)
+c = 3 * 10^8;
+
+% Calculate wavelength for Free Space Propagation Model
+wavelength = c / f;
+
+% Free Space Propagation Model: Calculate path loss (PL)
+PL_free_space = 20 * log10(d) + 20 * log10(f) + 20 * log10(4 * pi / c);
+
+% Two-ray Model: Calculate path loss (PL)
+PL_two_ray = 20 * log10(d) + 20 * log10(f) + 20 * log10((4 * pi * ht * hr) / c);
+
+% Plotting
+figure;
+plot(d, PL_free_space, 'r', 'LineWidth', 2); hold on;
+plot(d, PL_two_ray, 'b--', 'LineWidth', 2);
+xlabel('Distance (m)');
+ylabel('Path Loss (dB)');
+title('Comparison of Free Space Propagation Model and Two-ray Model');
+legend('Free Space Propagation Model', 'Two-ray Model', 'Location', 'Best');
+grid on;
+
+
+
+
+
+
+// hata model and  two ray 
+% clc
+% clear all
+% fc1 = 700*10^6;
+% fc2 = 900*10^6;
+% hte = 30/1000;
+% hre = 1.5;
+% d = 1:2:20;
+% ahre1 = (1.1 * log10(fc1) - 0.7) * hre - (1.56 * log10(fc1) - 0.8); % For Medium size city
+% ahre11 = (1.1 * log10(fc2) - 0.7) * hre - (1.56 * log10(fc2) - 0.8);
+% ahre2 = 3.2 * (log10(11.75 * hre)^2) - 4.97; % For Large City
+% pathloss_urban_large_fc1 = 69.55 + 26.16 * log10(fc1) - 13.82 * log10(hte) - ahre2 + (44.9 - 6.55 * log10(hte)) * log10(d);
+% pathloss_urban_large_fc2 = 69.55 + 26.16 * log10(fc2) - 13.82 * log10(hte) - ahre2 + (44.9 - 6.55 * log10(hte)) * log10(d);
+% pathloss_urban_medium_fc1 = 69.55 + 26.16 * log10(fc1) - 13.82 * log10(hte) - ahre1 + (44.9 - 6.55 * log10(hte)) * log10(d);
+% pathloss_urban_medium_fc2 = 69.55 + 26.16 * log10(fc2) - 13.82 * log10(hte) - ahre11 + (44.9 - 6.55 * log10(hte)) * log10(d);
+% pathloss_sub_urban_fc1 = pathloss_urban_large_fc1 - 2 * (log10(fc1 / 28)^2) - 5.4;
+% pathloss_sub_urban_fc2 = pathloss_urban_large_fc2 - 2 * (log10(fc2 / 28)^2) - 5.4;
+% pathloss_rural_fc1 = pathloss_urban_large_fc1 - 4.78 * (log10(fc1)^2) + 18.33 * log10(fc1) - 40.94;
+% pathloss_rural_fc2 = pathloss_urban_large_fc2 - 4.78 * (log10(fc2)^2) + 18.33 * log10(fc2) - 40.94;
+% 
+% figure;
+% plot(d, pathloss_urban_large_fc1, 'DisplayName', 'Large City for 700 MHz');
+% hold on;
+% plot(d, pathloss_urban_large_fc2, 'DisplayName', 'Large City for 900 MHz');
+% hold on;
+% plot(d, pathloss_urban_medium_fc1, 'DisplayName', 'Medium City for 700 Mhz');
+% plot(d, pathloss_urban_medium_fc2, 'DisplayName', 'Medium City for 900 Mhz');
+% plot(d, pathloss_sub_urban_fc1, 'DisplayName', 'Suburban City for 700 MHz');
+% plot(d, pathloss_sub_urban_fc2, 'DisplayName', 'Suburban City for 900 MHz');
+% plot(d, pathloss_rural_fc1, 'DisplayName', 'Rural for 700 MHz');
+% plot(d, pathloss_rural_fc2, 'DisplayName', 'Rural for 900 MHz');
+% hold off;
+% 
+% xlabel('Distance');
+% ylabel('Path Loss');
+% 
+% legend;
+
+
+% 
+% 
+% clc
+% clear all
+% close all
+% fc=700*10^6;
+% hte=10:10:100;
+% hre=1.5;
+% d1=5000;
+% d2 = 10000;
+% d3 = 20000;
+% ahre=3.2.*(log10(11.75*hre)^2)-4.97;
+% pathloss_urban_d1=69.55+26.16*log10(fc)-13.82*log10(hte)-ahre+(44.9-6.55*log10(hte)).*log10(d1);
+% pathloss_urban_d2=69.55+26.16*log10(fc)-13.82*log10(hte)-ahre+(44.9-6.55*log10(hte)).*log10(d2);
+% pathloss_urban_d3=69.55+26.16*log10(fc)-13.82*log10(hte)-ahre+(44.9-6.55*log10(hte)).*log10(d3);
+% figure;
+% plot(hte, pathloss_urban_d1, 'DisplayName', 'For D= 5 KM');
+% hold on;
+% plot(hte, pathloss_urban_d2, 'DisplayName', 'For D= 10 KM');
+% hold on;
+% plot(hte, pathloss_urban_d3, 'DisplayName', 'For D= 20 KM');
+% hold off;
+% 
+% xlabel('Antenna Height');
+% ylabel('Path Loss');
+% title('Antenna Height vs Path loss for Different distances');
+% legend;
+% 
+
+% clc
+% clear all
+% close all
+% f=900*10^6;
+% hte=30;
+% hre=1.5;
+% d=1:1:10;
+% ahre=3.2*((log(1.54*hre))^2)-4.79;
+% Lurban=69.55+26.16*log(f)-13.82*log(hte)-ahre+(44.9-6.55*log(hte))*log(d);
+% Pl=40*log(d.*1000)-(5+3+20*log(hte)+20*log(hre));
+% plot(d,Lurban);
+% xlabel("Distance");
+% ylabel("Path Loss");
+% hold on
+% plot(d,Pl);
+% title('Hata Model Vs Two-Ray Model');
+% xlabel("Distance");
+% ylabel("Path Loss");
+% legend("Hata Model","Two-ray model");
+
+
+
+
+
+
+//   log normal   shadowing model 
+
+
+% experiment 6
+% 2nd code below 
+clc;
+clear all;
+close all;
+do = 0.5; %in km
+f = 900000000;
+n = [2,3,4];     
+Xsiq = randn(1,10);
+pt=20;  %dbm
+d = 1:2:20;
+d1=d/do;
+PLfs = 32.45 + 20*log(do) + 20*log(f);  % in db
+figure;
+hold on;
+for n_value =n;
+    PL_db= (PLfs + Xsiq) +(10*n_value).*log(d1); % in db
+    pr= pt-PL_db;
+    plot(d,pr);
+end
+
+xlabel("distance in km");
+ylabel("received power in db");
+title("distance vs received power using log normal model for differernt path loss exponent");
+
+
+
+
+
+
+
+% 1st below 
+
+
+% clc
+% clear all
+% close all
+% do = 500;
+% f = 900000000;
+% n = 3;     
+% c = 3*100000000;
+% d = 1:1:20;
+% lambda = c/f;
+% pl_do = 10.*log(((4*pi).^2)/(c.^2)) + 20.*log(do) + 20.*log(f);
+% x = randn(1,20);
+% pl = pl_do + 10.*log(d/do) + x;
+% figure(1)
+% plot(d,pl);
+% xlabel("Distance");
+% ylabel("Log Normal Pathloss");
+% title("Log Normal Pathloss vs. Distance");
+% 
+% % Displaying the values of the variables in the command window
+% disp("Values of variables:");
+% disp(["do = " num2str(do)]);
+% disp(["f = " num2str(f)]);
+% disp(["n = " num2str(n)]);
+% disp(["c = " num2str(c)]);
+% disp(["d = " num2str(d)]);
+% disp(["lambda = " num2str(lambda)]);
+% disp(["pl_do = " num2str(pl_do)]);
+% disp(["x = " num2str(x)]);
+% disp(["pl = " num2str(pl)]);
+
+
+
+
+//   PAPR 
+
+
+
+function y5=E_papr_clipConv()
+clc;
+clear all;
+close all;
+L=input('Enter the L factor(1 to 1.5)= ');
+N=input('Enter the number of transmitted symbols(Power of 2)(preferably>32)=');
+M=input('Enter the alphabet size(Power of 2 and less than number ofSymbols)(preferably<32)=');
+r=floor(M*rand(N,1)); %Generating the rendom data for transmission
+a=qammod(r,M); %QAM modulating the data.
+%Insering zeros
+LN=floor(L*N);
+at=a';
+aa=[at(1:N) zeros(1,LN-N)]';
+x=ifft(aa); %Generating OFDM signal and calculating PAPR
+x_mag=abs(x);
+papr=max(x_mag.^2)/mean(x_mag.^2);
+subplot(3,1,1),stem(x_mag),title('Normal OFDM signal');
+ylabel("power");
+xlabel("number of signals");
+xlim([0 LN]);
+x_max=0.7*max(x_mag);
+for j=1:LN %Clipping the signals above threshold(here 70% of original value)
+if(x_mag(j,1)>x_max)
+x_mag1(j,1)=x_max;
+else
+x_mag1(j,1)=x_mag(j,1);
+end;
+end;
+subplot(3,1,2),stem(x_mag1),title('Clipped OFDM signal');
+ylabel("power");
+xlabel("number of signals");
+xlim([0 LN]);
+%Filtering the clipped signal
+h=[ones(1,N) zeros(1,LN-N)]';
+x_mag1=conv(x_mag1,h);
+subplot(3,1,3),stem(x_mag1),title('Clipped and Filtered OFDM signal');
+xlim([0 2*LN]);
+%Calculating PAPR of Clipped and Filtered signal
+papr1=max(x_mag1.^2)/mean(x_mag1.^2);
+disp('PAPR of original OFDM');
+disp(papr);
+disp('PAPR of clipped OFDM');
+disp(papr1);
+ylabel("power");
+xlabel("number of signals");
