@@ -1,4 +1,4 @@
-for k ,n,s,c,
+for_______________ k ,n,s,c,
 
 
 clc;
@@ -27,7 +27,7 @@ disp(c);
 
 
 
-Q)  Plot the graph of Channel bandwidth Vs Capacity, for the following 
+Q)  ____________Plot the graph of Channel bandwidth Vs Capacity, for the following 
 values: 
 i. Get total bandwidth from the user. Let the range of input be 20MHz 
 to 100MHz. 
@@ -87,7 +87,7 @@ hold off;
  handover probability for the following specifications 
 
 
-%  question 3      co channel vs SIR
+%  question 3      ____________________co channel vs SIR
 
 % clc 
 % clear all;
@@ -119,7 +119,7 @@ hold off;
 % 
 % 
 
-% question 4   // display SIR of the following
+% question 4   //____________ display SIR of the following
 %  n = 3;
 % N1 = 5;
 % N2 = 7;
@@ -149,7 +149,7 @@ hold off;
 
 
 
-% question 2  // handover probabilty vs cell radius 
+% ____________________question 2  // __________________________handover probabilty vs cell radius 
 % 
 % r=100:100:1000;
 % avg=3*60;
@@ -168,7 +168,7 @@ hold off;
 
 
 
-
+_______________________________________ call handover probability ____________________
 
 % %  question 1    //   call handover probability 
 % clc;
@@ -230,6 +230,8 @@ grid on;
 legend('Path Loss (PL)');
 
 
+
+____________________________________ free space ______________________
 % % Importing necessary libraries             // free space 
 % addpath('path_to_matlab_toolbox/matlab');
 % 
@@ -267,7 +269,7 @@ legend('Path Loss (PL)');
 % 
 
 
-//                    two ray model 
+//                   _____________________________________ two ray model 
 
 % Given values
 f = 900 * 10^6;  % Frequency of operation (Hz)
@@ -306,7 +308,7 @@ grid on;
 legend('Path Loss (PL)');
 
 
- //                 both two ray vs free space 
+ //                ______________________________________ both two ray vs free space 
 
 % % Given values
 % %distance = 1000 meter
@@ -371,7 +373,7 @@ grid on;
 
 
 
-// hata model and  two ray 
+//__________________________________ hata model and  two ray 
 % clc
 % clear all
 % fc1 = 700*10^6;
@@ -464,7 +466,7 @@ grid on;
 
 
 
-//   log normal   shadowing model 
+//   _______________________________________log normal   shadowing model 
 
 
 % experiment 6
@@ -534,7 +536,7 @@ title("distance vs received power using log normal model for differernt path los
 
 
 
-//   PAPR 
+//   PAPR _________________________________________ PAPR________________________________________
 
 
 
@@ -583,3 +585,57 @@ disp('PAPR of clipped OFDM');
 disp(papr1);
 ylabel("power");
 xlabel("number of signals");
+
+
+
+
+
+
+
+
+
+   ___________________________ Selective diversity __________________________________________
+clear
+N=10^6;
+ip=rand(1,N)>0.5;
+s=2*ip-1;
+nRx=[1 2];
+Eb_no=[0:35];
+for jj=1:length(nRx)
+    for ii=1:length(Eb_no)
+ 
+        n=1/sqrt(2)*[randn(nRx(jj),N)+j*randn(nRx(jj),N)];
+        h=1/sqrt(2)*[randn(nRx(jj),N)+j*randn(nRx(jj),N)];
+        sd=kron(ones(nRx(jj),1),s);
+        y=h.sd+10(-Eb_no(ii)/20)*n;
+        hpwr=h.*conj(h);
+        [hmaxval ind] = max(hpwr,[],1);
+        hmaxvalnat=kron(ones(nRx(jj),1),hmaxval);
+        ysel=y(hpwr==hmaxvalnat);
+        hsel=h(hpwr==hmaxvalnat);
+        yhat=ysel./hsel;
+        yhat=reshape(yhat,1,N);
+        iphat=real(yhat)>0;
+        nerr(jj,ii)=size(find([ip-iphat]),2)
+ 
+    end
+end
+sinber=nerr/N;
+Eb=10.*(Eb_no/10);
+thber_nRx1=0.5*[1-1*(1+1./Eb).^(-0.5)];
+thber_nRx2=0.5*[1-2*(1+1./Eb).^(-0.5)+(1+2./Eb).^(-0.5)];
+close all
+ 
+figure
+ 
+semilogy(Eb_no,thber_nRx1,'bp-','LineWidth',2);
+hold on
+semilogy(Eb_no,sinber(1,:),'mo-','LineWidth',2);
+semilogy(Eb_no,thber_nRx2,'rd-','LineWidth',2);
+semilogy(Eb_no,sinber(2,:),'ks-','LineWidth',2);
+axis([0 35 10^-5 0.5])
+grid on
+legend('nRx=1 (theory)','nRx=1 (sim)','nRx=2 (theory)','nRx=2 (sim)');
+xlabel('Eb/no,db');
+ylabel('BER');
+title('Ber for BPSK with selective diversity in rayleigh channel (21BEC1536)');
